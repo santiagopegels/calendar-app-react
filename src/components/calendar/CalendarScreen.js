@@ -8,6 +8,8 @@ import { Navbar } from '../ui/Navbar'
 import { messages } from '../../helpers/calendar-message-es'
 import { CalendarEvent } from './CalendarEvent'
 import { CalendarModal } from './CalendarModal'
+import { useDispatch } from 'react-redux'
+import { uiOpenModal } from '../../actions/ui'
 
 moment.locale('es')
 
@@ -26,6 +28,8 @@ const events = [{
 
 export const CalendarScreen = () => {
 
+    const dispatch = useDispatch()
+
     const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'month')
 
     const eventStyleGetter = (event, start, end, isSelected) => {
@@ -42,7 +46,7 @@ export const CalendarScreen = () => {
     }
 
     const onDoubleClick = (e) => {
-        console.log(e)
+        dispatch( uiOpenModal())
     }
     
     const onSelectEvent = (e) => {
