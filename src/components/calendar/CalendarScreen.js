@@ -8,7 +8,7 @@ import { Navbar } from '../ui/Navbar'
 import { messages } from '../../helpers/calendar-message-es'
 import { CalendarEvent } from './CalendarEvent'
 import { CalendarModal } from './CalendarModal'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { uiOpenModal } from '../../actions/ui'
 import { eventSetActive } from '../../actions/events'
 import { AddNewFav } from '../ui/AddNewFav'
@@ -17,18 +17,9 @@ moment.locale('es')
 
 const localizer = momentLocalizer(moment)
 
-const events = [{
-    title: 'Cumpleaños',
-    start: moment().toDate(),
-    end: moment().add(2, 'hours').toDate(),
-    notes: 'Comprar comida',
-    user: {
-        _id: '123',
-        name: 'Santiago'
-    }
-}]
-
 export const CalendarScreen = () => {
+
+    const {events} = useSelector(state => state.calendar)
 
     const dispatch = useDispatch()
 
@@ -53,7 +44,6 @@ export const CalendarScreen = () => {
     
     const onSelectEvent = (e) => {
         dispatch(eventSetActive(e))
-        dispatch(uiOpenModal())
     }
     
     const onViewChange = (e) => {
