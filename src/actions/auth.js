@@ -11,7 +11,7 @@ export const startLogin = (email, password) => {
         if (body.ok) {
             localStorage.setItem('token', body.token)
             localStorage.setItem('token-init-date', new Date().getTime())
-            
+
             dispatch(login({
                 uid: body.user.uid,
                 name: body.user.name
@@ -32,7 +32,7 @@ export const startRegister = (name, email, password) => {
         if (body.ok) {
             localStorage.setItem('token', body.token)
             localStorage.setItem('token-init-date', new Date().getTime())
-            
+
             dispatch(login({
                 uid: body.user.uid,
                 name: body.user.name
@@ -52,7 +52,7 @@ export const startChecking = () => {
         if (body.ok) {
             localStorage.setItem('token', body.token)
             localStorage.setItem('token-init-date', new Date().getTime())
-            
+
             dispatch(login({
                 uid: body.user.uid,
                 name: body.user.name
@@ -63,9 +63,18 @@ export const startChecking = () => {
     }
 }
 
-const checkingFinish = () => ({type: types.authCheckingFinish})
+const checkingFinish = () => ({ type: types.authCheckingFinish })
 
 const login = (user) => ({
     type: types.authLogin,
     payload: user
 })
+
+export const startLogout = () => {
+    return (dispatch) => {
+        localStorage.clear()
+        dispatch(logout())
+    }
+}
+
+const logout = () => ({ type: types.authLogout })
