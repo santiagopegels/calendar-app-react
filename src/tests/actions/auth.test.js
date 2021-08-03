@@ -1,9 +1,14 @@
 import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
+import Swal from 'sweetalert2'
 
 import '@testing-library/jest-dom'
 import { startLogin } from '../../actions/auth'
 import { types } from '../../types/types'
+
+jest.mock('sweetalert2', ()=> ({
+    fire: jest.fn()
+}))
 
 const middlewares = [thunk]
 const mockStore = configureStore(middlewares)
@@ -37,6 +42,14 @@ describe('Test on auth actions', () => {
         expect(localStorage.setItem).toHaveBeenCalledWith('token', expect.any(String))
         expect(localStorage.setItem).toHaveBeenCalledWith('token-init-date', expect.any(Number))
 
+    })
+
+    test('should login incorrectly', async () => {
+        await store.dispatch(startLogin('1111@test.com', 'incorrectly'))
+        const actions = store.getActions()
+
+        expect(actions).toEqual([])
+        expect(Swal.fire).toHaveBeenCalledWith("Error", "Correo o password incorrecto", "error")
     })
 
 })
